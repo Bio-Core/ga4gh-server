@@ -35,7 +35,6 @@ import ga4gh.server.network as network
 
 import ga4gh.schemas.protocol as protocol
 
-MIMETYPE = "application/json"
 SEARCH_ENDPOINT_METHODS = ['POST', 'OPTIONS']
 SECRET_KEY_LENGTH = 24
 
@@ -358,11 +357,11 @@ def configure(configFile=None, baseConfig="ProductionConfig",
             app.oidcClient.store_registration_info(response)
 
 
-def getFlaskResponse(responseString, httpStatus=200):
+def getFlaskResponse(responseString, httpStatus=200, mimetype="application/json"):
     """
     Returns a Flask response object for the specified data and HTTP status.
     """
-    return flask.Response(responseString, status=httpStatus, mimetype=MIMETYPE)
+    return flask.Response(responseString, status=httpStatus, mimetype=mimetype)
 
 
 def handleHttpPost(request, endpoint):
@@ -370,21 +369,23 @@ def handleHttpPost(request, endpoint):
     Handles the specified HTTP POST request, which maps to the specified
     protocol handler endpoint and protocol request class.
     """
-    if request.mimetype and request.mimetype != MIMETYPE:
+    if request.mimetype and request.mimetype not in protocol.MIMETYPES:
         raise exceptions.UnsupportedMediaTypeException()
+    return_mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
     request = request.get_data()
     if request == '' or request is None:
         request = '{}'
-    responseStr = endpoint(request)
-    return getFlaskResponse(responseStr)
+    responseStr = endpoint(request, return_mimetype=return_mimetype)
+    return getFlaskResponse(responseStr, mimetype=return_mimetype)
 
 
 def handleList(endpoint, request):
     """
     Handles the specified HTTP GET request, mapping to a list request
     """
-    responseStr = endpoint(request.get_data())
-    return getFlaskResponse(responseStr)
+    return_mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
+    responseStr = endpoint(request.get_data(), return_mimetype=return_mimetype)
+    return getFlaskResponse(responseStr, mimetype=return_mimetype)
 
 
 def handleHttpGet(id_, endpoint):
@@ -392,8 +393,9 @@ def handleHttpGet(id_, endpoint):
     Handles the specified HTTP GET request, which maps to the specified
     protocol handler endpoint and protocol request class
     """
-    responseStr = endpoint(id_)
-    return getFlaskResponse(responseStr)
+    return_mimetype = flask.request.accept_mimetypes.best_match(protocol.MIMETYPES)
+    responseStr = endpoint(id_, return_mimetype=return_mimetype)
+    return getFlaskResponse(responseStr, mimetype=return_mimetype)
 
 
 def handleHttpOptions():
