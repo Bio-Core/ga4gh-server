@@ -17,7 +17,7 @@ GA4GH Reference Implementation
    :alt: Join the chat at https://gitter.im/ga4gh/ga4gh-server
    :target: https://gitter.im/ga4gh/ga4gh-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
-.. image:: https://img.shields.io/travis/ga4gh/ga4gh-server/master.svg
+.. image:: https://img.shields.io/ljdursi/ga4gh/ga4gh-server/master.svg
    :alt: Current build status on Travis-CI, click for more
    :target: https://travis-ci.org/ga4gh/ga4gh-server
 
