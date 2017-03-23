@@ -357,7 +357,8 @@ def configure(configFile=None, baseConfig="ProductionConfig",
             app.oidcClient.store_registration_info(response)
 
 
-def getFlaskResponse(responseString, httpStatus=200, mimetype="application/json"):
+def getFlaskResponse(responseString, httpStatus=200,
+                     mimetype="application/json"):
     """
     Returns a Flask response object for the specified data and HTTP status.
     """
@@ -393,7 +394,8 @@ def handleHttpGet(id_, endpoint):
     Handles the specified HTTP GET request, which maps to the specified
     protocol handler endpoint and protocol request class
     """
-    return_mimetype = flask.request.accept_mimetypes.best_match(protocol.MIMETYPES)
+    request = flask.request
+    return_mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
     responseStr = endpoint(id_, return_mimetype=return_mimetype)
     return getFlaskResponse(responseStr, mimetype=return_mimetype)
 

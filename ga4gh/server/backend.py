@@ -571,7 +571,7 @@ class Backend(object):
         object into its protocol representation.
         """
         protocolElement = obj.toProtocolElement()
-        data  = protocol.serialize(protocolElement, return_mimetype)
+        data = protocol.serialize(protocolElement, return_mimetype)
         return data
 
     def runSearchRequest(
@@ -609,7 +609,8 @@ class Backend(object):
         self.endProfile()
         return responseString
 
-    def runListReferenceBases(self, requestJson, return_mimetype="application/json"):
+    def runListReferenceBases(self, requestJson,
+                              return_mimetype="application/json"):
         """
         Runs a listReferenceBases request for the specified ID and
         request arguments.
@@ -671,7 +672,8 @@ class Backend(object):
         return protocol.serialize(protocol.GetInfoResponse(
             protocol_version=protocol.version), return_mimetype)
 
-    def runAddAnnouncement(self, flaskrequest, return_mimetype="application/json"):
+    def runAddAnnouncement(self, flaskrequest,
+                           return_mimetype="application/json"):
         """
         Takes a flask request from the frontend and attempts to parse
         into an AnnouncePeerRequest. If successful, it will log the
@@ -838,7 +840,8 @@ class Backend(object):
         dataset = self.getDataRepository().getDataset(id_)
         return self.runGetRequest(dataset, return_mimetype)
 
-    def runGetVariantAnnotationSet(self, id_, return_mimetype="application/json"):
+    def runGetVariantAnnotationSet(self, id_,
+                                   return_mimetype="application/json"):
         """
         Runs a getVariantSet request for the specified ID.
         """
@@ -859,7 +862,8 @@ class Backend(object):
         rnaQuantification = rnaQuantificationSet.getRnaQuantification(id_)
         return self.runGetRequest(rnaQuantification, return_mimetype)
 
-    def runGetRnaQuantificationSet(self, id_, return_mimetype="application/json"):
+    def runGetRnaQuantificationSet(self, id_,
+                                   return_mimetype="application/json"):
         """
         Runs a getRnaQuantificationSet request for the specified ID.
         """
