@@ -373,14 +373,14 @@ def handleHttpPost(request, endpoint):
     if request.mimetype and request.mimetype not in protocol.MIMETYPES:
         raise exceptions.UnsupportedMediaTypeException()
     if hasattr(request, 'accept_mimetypes'):
-        return_mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
+        mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
     else:
-        return_mimetype = protocol.MIMETYPES[0]
+        mimetype = protocol.MIMETYPES[0]
     request = request.get_data()
     if request == '' or request is None:
         request = '{}'
-    responseStr = endpoint(request, return_mimetype=return_mimetype)
-    return getFlaskResponse(responseStr, mimetype=return_mimetype)
+    responseStr = endpoint(request, return_mimetype=mimetype)
+    return getFlaskResponse(responseStr, mimetype=mimetype)
 
 
 def handleList(endpoint, request):
