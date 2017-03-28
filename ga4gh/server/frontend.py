@@ -372,7 +372,10 @@ def handleHttpPost(request, endpoint):
     """
     if request.mimetype and request.mimetype not in protocol.MIMETYPES:
         raise exceptions.UnsupportedMediaTypeException()
-    return_mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
+    if hasattr(request, 'accept_mimetypes'):
+        return_mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
+    else:
+        return_mimetype = protocol.MIMETYPES[0]
     request = request.get_data()
     if request == '' or request is None:
         request = '{}'
