@@ -11,6 +11,7 @@ import contextlib
 import fnmatch
 import os
 import inspect
+import array
 
 import google.protobuf.json_format as json_format
 
@@ -63,6 +64,11 @@ class TestCase(object):
     # Protocol Buffers default values are considered "None-like"
     consideredNone = [None, pb.DEFAULT_STRING, pb.DEFAULT_INT]
 
+    def is_equal_float32(a, b):
+        a_float32 = array('f', [a])[0]
+        b_float32 = array('f', [b])[0]
+        return a_float32 == b_float32
+
     def assertEqual(self, a, b):
         """
         Tests if a an b are equal. If not, output an error and raise
@@ -70,6 +76,9 @@ class TestCase(object):
         """
         if a == b:
             return
+        if isinstance(a, float) and isinstance(b, float):
+            if is_equal_float32(a, b):
+                return
 
         # Protocol Buffers has default string as "", not None
         if a in TestCase.consideredNone and b in TestCase.consideredNone:
