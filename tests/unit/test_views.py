@@ -549,9 +549,8 @@ class TestFrontend(unittest.TestCase):
         with self.assertRaises(exceptions.UnsupportedMediaTypeException):
             response = frontend.handleHttpPost(request, lambda x: x)
 
-        # An empty mimetype should work OK
         request = Mock()
-        request.mimetype = None
+        request.mimetype = "application/json"
         request.get_data = lambda: "data"
         response = frontend.handleHttpPost(request, lambda x: x)
         self.assertEquals(response.get_data(), "data")
