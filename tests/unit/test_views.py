@@ -547,10 +547,10 @@ class TestFrontend(unittest.TestCase):
         request.mimetype = "garbage"
         # A bad mimetype should throw an exception
         with self.assertRaises(exceptions.UnsupportedMediaTypeException):
-            response = frontend.handleHttpPost(request, lambda x: x)
+            response = frontend.handleHttpPost(request, lambda x, y: x)
 
         request = Mock()
         request.mimetype = "application/json"
         request.get_data = lambda: "data"
-        response = frontend.handleHttpPost(request, lambda x: x)
+        response = frontend.handleHttpPost(request, lambda x, y: x)
         self.assertEquals(response.get_data(), "data")
