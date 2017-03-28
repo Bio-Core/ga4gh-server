@@ -764,7 +764,12 @@ def listPeers():
 def announce():
     # We can't use the post handler here because we want detailed request
     # data.
-    return app.backend.runAddAnnouncement(flask.request)
+    request = flask.request
+    if hasattr(request, 'accept_mimetypes'):
+        mimetype = request.accept_mimetypes.best_match(protocol.MIMETYPES)
+    else:
+        mimetype = protocol.MIMETYPES[0]
+    return app.backend.runAddAnnouncement(request, return_mimetype=mimetype)
 
 
 @DisplayedRoute(
