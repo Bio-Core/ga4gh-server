@@ -226,8 +226,8 @@ class TestSimulatedStack(unittest.TestCase):
             gaReference.source_accessions, reference.getSourceAccessions())
         self.assertEqual(gaReference.is_derived, reference.getIsDerived())
         self.assertEqual(
-            round_float32(float(gaReference.source_divergence)),
-            round_float32(float(reference.getSourceDivergence())))
+            round_float32(float(str(gaReference.source_divergence))),
+            round_float32(float(str(reference.getSourceDivergence()))))
 
     def verifySearchMethod(
             self, request, path, responseClass, objects, objectVerifier):
