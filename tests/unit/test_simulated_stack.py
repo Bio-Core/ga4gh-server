@@ -691,7 +691,6 @@ class TestSimulatedStack(unittest.TestCase):
         request.effects.add().term_id = "SO:0001627"
         request.effects.add().term_id = "B4DID"
         response = self.sendJsonPostRequest(path, protocol.toJson(request))
-        print(response.data)
         responseData = protocol.fromJson(response.data, protocol.
                                          SearchVariantAnnotationsResponse)
         responseLength = len(responseData.variant_annotations)
