@@ -1,7 +1,7 @@
 """
 The Flask frontend for the GA4GH API.
 
-TODO Document properly.
+TODO Document properly
 """
 
 from __future__ import division
@@ -64,7 +64,7 @@ app.urls = []
 requires_auth = auth.auth_decorator(app)
 
 # Edit this for flask-oidc, the endpoints are in the client_secrets.json file
-pathLocation = '/'.join(('.', 'config', 'oidc_auth_config.yml'))
+pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
 configPath = pkg_resources.resource_filename(__name__, pathLocation)
 config = import_yaml_config(config=configPath)
 app.config.update(config["frontend"])
@@ -306,6 +306,14 @@ def configure(configFile=None, baseConfig="ProductionConfig",
     redirect-url for the Auth and OIDC providers (if present).
 
     """
+
+    # Edit this for flask-oidc, the endpoints are in
+    # the client_secrets.json file
+    pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
+    configPath = pkg_resources.resource_filename(__name__, pathLocation)
+    config = import_yaml_config(config=configPath)
+    app.config.update(config["frontend"])
+
     file_handler = StreamHandler()
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
@@ -843,7 +851,7 @@ def searchVariantSets():
 
 @DisplayedRoute('/variants/search', postMethod=True)
 def searchVariants():
-    action = app.backend.runSearchVariant
+    action = app.backend.runSearchVariants
     return handleFlaskPostRequest(flask.request, action)
 
 

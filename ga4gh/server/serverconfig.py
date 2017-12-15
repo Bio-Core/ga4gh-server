@@ -9,8 +9,9 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import datetime
-import yaml 
+import yaml
 import pkg_resources
+
 
 def importYamlConfig(config):
     """
@@ -26,7 +27,7 @@ class BaseConfig(object):
     """
     Simplest default server configuration.
     """
-    pathLocation = '/'.join(('.', 'config', 'oidc_auth_config.yml'))
+    pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
     configPath = pkg_resources.resource_filename(__name__, pathLocation)
     config = importYamlConfig(config=configPath)
 
@@ -43,18 +44,30 @@ class BaseConfig(object):
     FILE_HANDLE_CACHE_MAX_SIZE = serverConfig["FILE_HANDLE_CACHE_MAX_SIZE"]
 
     # Options for the simulated backend.
-    SIMULATED_BACKEND_RANDOM_SEED = serverConfig["SIMULATED_BACKEND_RANDOM_SEED"]
-    SIMULATED_BACKEND_NUM_CALLS = serverConfig["SIMULATED_BACKEND_NUM_CALLS"]
-    SIMULATED_BACKEND_VARIANT_DENSITY = serverConfig["SIMULATED_BACKEND_VARIANT_DENSITY"]
-    SIMULATED_BACKEND_NUM_VARIANT_SETS = serverConfig["SIMULATED_BACKEND_NUM_VARIANT_SETS"]
-    SIMULATED_BACKEND_NUM_REFERENCE_SETS = serverConfig["SIMULATED_BACKEND_NUM_REFERENCE_SETS"]
-    SIMULATED_BACKEND_NUM_REFERENCES_PER_REFERENCE_SET = serverConfig["SIMULATED_BACKEND_NUM_REFERENCES_PER_REFERENCE_SET"]
-    SIMULATED_BACKEND_NUM_ALIGNMENTS_PER_READ_GROUP = serverConfig["SIMULATED_BACKEND_NUM_ALIGNMENTS_PER_READ_GROUP"]
-    SIMULATED_BACKEND_NUM_READ_GROUPS_PER_READ_GROUP_SET = serverConfig["SIMULATED_BACKEND_NUM_READ_GROUPS_PER_READ_GROUP_SET"]
-    SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATIONS = serverConfig["SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATIONS"]
-    SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATION_SETS = serverConfig["SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATION_SETS"]
-    SIMULATED_BACKEND_NUM_RNA_QUANTIFICATION_SETS = serverConfig["SIMULATED_BACKEND_NUM_RNA_QUANTIFICATION_SETS"]
-    SIMULATED_BACKEND_NUM_EXPRESSION_LEVELS_PER_RNA_QUANT_SET = serverConfig["SIMULATED_BACKEND_NUM_EXPRESSION_LEVELS_PER_RNA_QUANT_SET"]
+    SIMULATED_BACKEND_RANDOM_SEED = serverConfig[
+        "SIMULATED_BACKEND_RANDOM_SEED"]
+    SIMULATED_BACKEND_NUM_CALLS = serverConfig[
+        "SIMULATED_BACKEND_NUM_CALLS"]
+    SIMULATED_BACKEND_VARIANT_DENSITY = serverConfig[
+        "SIMULATED_BACKEND_VARIANT_DENSITY"]
+    SIMULATED_BACKEND_NUM_VARIANT_SETS = serverConfig[
+        "SIMULATED_BACKEND_NUM_VARIANT_SETS"]
+    SIMULATED_BACKEND_NUM_REFERENCE_SETS = serverConfig[
+        "SIMULATED_BACKEND_NUM_REFERENCE_SETS"]
+    SIMULATED_BACKEND_NUM_REFERENCES_PER_REFERENCE_SET = serverConfig[
+        "SIMULATED_BACKEND_NUM_REFERENCES_PER_REFERENCE_SET"]
+    SIMULATED_BACKEND_NUM_ALIGNMENTS_PER_READ_GROUP = serverConfig[
+        "SIMULATED_BACKEND_NUM_ALIGNMENTS_PER_READ_GROUP"]
+    SIMULATED_BACKEND_NUM_READ_GROUPS_PER_READ_GROUP_SET = serverConfig[
+        "SIMULATED_BACKEND_NUM_READ_GROUPS_PER_READ_GROUP_SET"]
+    SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATIONS = serverConfig[
+        "SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATIONS"]
+    SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATION_SETS = serverConfig[
+        "SIMULATED_BACKEND_NUM_PHENOTYPE_ASSOCIATION_SETS"]
+    SIMULATED_BACKEND_NUM_RNA_QUANTIFICATION_SETS = serverConfig[
+        "SIMULATED_BACKEND_NUM_RNA_QUANTIFICATION_SETS"]
+    SIMULATED_BACKEND_NUM_EXPRESSION_LEVELS_PER_RNA_QUANT_SET = serverConfig[
+        "SIMULATED_BACKEND_NUM_EXPRESSION_LEVELS_PER_RNA_QUANT_SET"]
 
 
 class ComplianceConfig(BaseConfig):
@@ -130,8 +143,8 @@ class TestAuth0Config(DevelopmentConfig):
     AUTH0_CALLBACK_URL = "http://localhost:8000/callback"
     AUTH0_HOST = "david4096.auth0.com"
     AUTH0_CLIENT_ID = "r99hdj5hhkazgePB5oMYK9Sv4NaUwwYp"
-    AUTH0_CLIENT_SECRET = "KeV2tMyGaSgLeOhpoGs_XLH65Tfw43yBjT8" \
-    "DIpaTxXAKmd_bguJwXA6T7D0iYfgB"
+    AUTH0_CLIENT_SECRET = "KeV2tMyGaSgLeOhpoGs_XLH65Tfw43yBjT8\
+    DIpaTxXAKmd_bguJwXA6T7D0iYfgB"
     AUTH0_AUTHORIZED_EMAILS = "davidcs@ucsc.edu,your@email.com"
 
 
@@ -148,12 +161,12 @@ class TestOidcConfig(TestConfig):
     OIDC_PROVIDER = "http://localhost:8080/auth/realms/demo"
     OIDC_CLIENT_ID = "demo"
     OIDC_CLIENT_SECRET = "xxx"
-    OIDC_AUTHZ_ENDPOINT = "http://localhost:8080/auth/realms/" \
-    "demo/protocol/openid-connect/auth"
-    OIDC_TOKEN_ENDPOINT = "http://localhost:8080/auth/realms/" \
-    "demo/protocol/openid-connect/token"
-    OIDC_TOKEN_REV_ENDPOINT = "http://localhost:8080/auth/realms/" \
-    "demo/protocol/openid-connect/token/introspect"
+    OIDC_AUTHZ_ENDPOINT = "http://localhost:8080/auth/realms/\
+    demo/protocol/openid-connect/auth"
+    OIDC_TOKEN_ENDPOINT = "http://localhost:8080/auth/realms/\
+    demo/protocol/openid-connect/token"
+    OIDC_TOKEN_REV_ENDPOINT = "http://localhost:8080/auth/realms/\
+    demo/protocol/openid-connect/token/introspect"
 
 
 class FlaskDefaultConfig(object):
