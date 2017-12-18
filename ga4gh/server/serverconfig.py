@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 import datetime
 import yaml
 import pkg_resources
-
+import os
 
 def importYamlConfig(config):
     """
@@ -27,10 +27,16 @@ class BaseConfig(object):
     """
     Simplest default server configuration.
     """
-    pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
-    configPath = pkg_resources.resource_filename(__name__, pathLocation)
-    config = importYamlConfig(config=configPath)
+    configPath = os.environ.get("GA4GH_CONFIG")
 
+    if not configPath:
+        # if GA4GH_CONFIG environment variable exists
+        # then import a config file using it as the PATH
+        # otherwise use the default
+        pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
+        configPath = pkg_resources.resource_filename(__name__, pathLocation)
+
+    config = importYamlConfig(config=configPath)
     serverConfig = config["server"]
 
     MAX_CONTENT_LENGTH = serverConfig["MAX_CONTENT_LENGTH"]
