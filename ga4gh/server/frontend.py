@@ -321,8 +321,18 @@ def configure(configFile=None, baseConfig="ProductionConfig",
     app.config.from_object(configStr)
     if os.environ.get('GA4GH_CONFIGURATION') is not None:
         app.config.from_envvar('GA4GH_CONFIGURATION')
+
     if configFile is not None:
-        app.config.from_pyfile(configFile)
+        basename = os.path.basename(configFile)
+        # get the filename after the first extension
+        ext = '.'.join(basename.split('.')[1:]) 
+        if ext == "yml":
+            # this expects an ABSOLUTE path
+            config = import_yaml_config(configFile)
+            app.config.update(config["frontend"])
+        else:
+            app.config.from_pyfile(configFile)
+
     app.config.update(extraConfig.items())
     # Setup file handle cache max size
     datamodel.fileHandleCache.setMaxCacheSize(
