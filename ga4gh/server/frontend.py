@@ -64,8 +64,16 @@ app.urls = []
 requires_auth = auth.auth_decorator(app)
 
 # Edit this for flask-oidc, the endpoints are in the client_secrets.json file
-pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
-configPath = pkg_resources.resource_filename(__name__, pathLocation)
+
+configPath = os.environ.get("GA4GH_CONFIG")
+
+if not configPath:
+    # if GA4GH_CONFIG environment variable exists
+    # then import a config file using it as the PATH
+    # otherwise use the default
+    pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
+    configPath = pkg_resources.resource_filename(__name__, pathLocation)
+
 config = import_yaml_config(config=configPath)
 app.config.update(config["frontend"])
 
@@ -306,14 +314,6 @@ def configure(configFile=None, baseConfig="ProductionConfig",
     redirect-url for the Auth and OIDC providers (if present).
 
     """
-
-    # Edit this for flask-oidc, the endpoints are in
-    # the client_secrets.json file
-    pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
-    configPath = pkg_resources.resource_filename(__name__, pathLocation)
-    config = import_yaml_config(config=configPath)
-    app.config.update(config["frontend"])
-
     file_handler = StreamHandler()
     file_handler.setLevel(logging.WARNING)
     app.logger.addHandler(file_handler)
@@ -332,6 +332,11 @@ def configure(configFile=None, baseConfig="ProductionConfig",
             app.config.update(config["frontend"])
         else:
             app.config.from_pyfile(configFile)
+    else:
+        pathLocation = '/'.join(('.', 'config', 'oidc_config.yml'))
+        configPath = pkg_resources.resource_filename(__name__, pathLocation)
+        config = import_yaml_config(config=configPath)
+        app.config.update(config["frontend"])
 
     app.config.update(extraConfig.items())
     # Setup file handle cache max size
